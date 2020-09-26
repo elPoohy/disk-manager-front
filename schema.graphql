@@ -1,0 +1,103 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Auth {
+    access_token: String!
+    expires_in: Int!
+}
+
+type Mutation {
+    createTenant(input: NewTenant!): Tenant!
+    createUser(input: NewUser!): User!
+    deleteTenant(input: DeleteTenant!): String!
+    deleteUser(input: DeleteUser!): String!
+    login(input: Login!): Auth!
+    refreshToken(input: RefreshTokenInput!): Auth!
+}
+
+type Query {
+    Tenant(id: Int): Tenant!
+    Tenants(status: TenantType): [Tenant!]
+    User(email: String, name: String): User!
+    Users(tenant: Int): [User!]
+}
+
+type Tenant {
+    id: Int!
+    name: String!
+    officeGroup: String!
+    order: String!
+    organization: String!
+    primaryGroup: String!
+    status: TenantType
+    users: [User]
+}
+
+type User {
+    displayName: String!
+    email: String!
+    free: Int!
+    fullAdmin: Boolean!
+    id: String!
+    office: Boolean!
+    quota: Int!
+    tenant: Tenant
+    tenantAdmin: Boolean!
+}
+
+enum ActionType {
+    deleted
+    disabled
+    enabled
+    error
+}
+
+enum TenantType {
+    deleted
+    enabled
+    main
+    trial
+    wholesale
+}
+
+input DeleteTenant {
+    id: Int
+    name: String
+}
+
+input DeleteUser {
+    name: String!
+}
+
+input Login {
+    email: String!
+    password: String!
+}
+
+input NewTenant {
+    displayName: String!
+    email: String!
+    name: String!
+    order: String!
+    organization: String!
+    quota: Int!
+    type: TenantType!
+}
+
+input NewUser {
+    displayName: String!
+    email: String!
+    fullAdmin: Boolean
+    office: Boolean
+    quota: Int!
+    tenant: Int
+    tenantAdmin: Boolean
+}
+
+input RefreshTokenInput {
+    token: String!
+}
